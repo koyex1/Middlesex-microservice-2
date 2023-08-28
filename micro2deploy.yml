@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro2deployment
+  labels:
+    app: micro2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: micro2
+  template:
+    metadata:
+      labels:
+        app: micro2
+    spec:
+      containers:
+      - name: micro2
+        image: microservice2:1.0
+        ports:
+        - containerPort: 3002
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro2service
+spec:
+  selector:
+    app.kubernetes.io/name: micro2
+  ports:
+  type: NodePort
+    - protocol: TCP
+      port: 3002
+      targetPort: 3002
